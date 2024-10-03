@@ -219,6 +219,6 @@ deactivate
 
 
 cd $Root
-python update_test_path.py \ 
+python update_test_path.py \
     --data_path $Data_Path \
     --source_code_root $Source_Code_Root
