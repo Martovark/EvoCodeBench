@@ -3,8 +3,8 @@ ROOT=/home/user/EvoCodeBench
 Source_Code_Root=$ROOT/Source_Code
 Dependency_Root=$ROOT/Dependency_Data
 
-tasks=(baseline)
-models=(codellama-7b_greedy deepseek-7b_greedy)
+tasks=(local_infilling)
+models=(gpt4-1106_greedy)
 
 for task in ${tasks[@]}; do
     for model in ${models[@]}; do

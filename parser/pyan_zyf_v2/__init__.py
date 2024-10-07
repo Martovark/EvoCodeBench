@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from glob import glob
 import io
+from glob import glob
 from typing import List, Union
 
 from .analyzer import CallGraphVisitor

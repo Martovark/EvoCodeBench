@@ -2,6 +2,8 @@ import json
 import os
 import sys
 from argparse import ArgumentParser
+from pathlib import Path
+
 
 def parse_args():
     parser = ArgumentParser()
@@ -27,7 +29,7 @@ def main():
     test_file_paths = set(test_file_paths)
 
     for item in test_file_paths:
-        project_path, test_path = item
+        project_path, test_path = item; project_path=Path(project_path); project_path = project_path.absolute()
         test_path = os.path.join(project_path, test_path)
         code = ""
         with open(test_path, 'r') as f:

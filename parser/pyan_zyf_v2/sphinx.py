@@ -28,10 +28,9 @@ import re
 from typing import Any
 
 from docutils.parsers.rst import directives
+from pyan import create_callgraph
 from sphinx.ext.graphviz import align_spec, figure_wrapper, graphviz
 from sphinx.util.docutils import SphinxDirective
-
-from pyan import create_callgraph
 
 
 def direction_spec(argument: Any) -> str:
@@ -39,7 +38,6 @@ def direction_spec(argument: Any) -> str:
 
 
 class CallgraphDirective(SphinxDirective):
-
     # this enables content in the directive
     has_content = True
 
@@ -149,9 +147,10 @@ class CallgraphDirective(SphinxDirective):
 
 
 def setup(app):
-
     app.add_directive("callgraph", CallgraphDirective)
-    app.add_js_file("https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js")
+    app.add_js_file(
+        "https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"
+    )
 
     # script to find zoomable svgs
     script = """

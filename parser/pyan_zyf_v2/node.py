@@ -30,7 +30,7 @@ class Flavor(Enum):
     CLASS = "class"
     FUNCTION = "function"
     METHOD = "method"  # instance method
-    
+
     STATICMETHOD = "staticmethod"
     CLASSMETHOD = "classmethod"
     PROPERTYMETHOD = "propertymethod"
@@ -90,7 +90,18 @@ class Node:
     See the Flavor enum for currently supported values.
     """
 
-    def __init__(self, namespace, name, ast_node, filename, flavor, actual_path = None, value = None, defined_path = None, defined = False):
+    def __init__(
+        self,
+        namespace,
+        name,
+        ast_node,
+        filename,
+        flavor,
+        actual_path=None,
+        value=None,
+        defined_path=None,
+        defined=False,
+    ):
         self.namespace = namespace
         self.name = name
         self.ast_node = ast_node
@@ -102,9 +113,9 @@ class Node:
         # 而类变量的actual_path应该是变量的实际类型，与get_name()不同
         # 如果获取不到实际类型，则actual_path为None
         self.actual_path = actual_path
-        
-        # value: If the current node corresponds to a variable and the node corresponding to the variable value can be determined, 
-        # the value of the node corresponding to the variable is saved as the value of the node corresponding to the assignor (if present) or the assignor node itself (if there is no real value). 
+
+        # value: If the current node corresponds to a variable and the node corresponding to the variable value can be determined,
+        # the value of the node corresponding to the variable is saved as the value of the node corresponding to the assignor (if present) or the assignor node itself (if there is no real value).
         # Often generated in assignment statements. a=b -> a.value=b.value
         # If value and actual_path are consistent, it indicates that value is a real type, otherwise value is another variable node
         # 节点的value属性是一个Node对象，表示当前节点的值
@@ -112,7 +123,7 @@ class Node:
         # 或者产生对应一个真实节点的虚拟节点，则value为真实节点
         # value也可以有value，根据代码中的赋值。
         self.value = value
-        
+
         self.defined_path = defined_path
         self.filename = filename
         self.flavor = flavor
@@ -154,7 +165,11 @@ class Node:
                         self.namespace,
                     )
                 else:
-                    return "%s\\n\\n(%s in %s)" % (self.name, repr(self.flavor), self.namespace)
+                    return "%s\\n\\n(%s in %s)" % (
+                        self.name,
+                        repr(self.flavor),
+                        self.namespace,
+                    )
             else:
                 return self.name
 
@@ -167,7 +182,7 @@ class Node:
             return "*." + self.name
         else:
             return self.namespace + "." + self.name
-    
+
     def get_type(self):
         """Return the node path representing the current node type"""
         return self.actual_path
@@ -175,7 +190,7 @@ class Node:
     def set_type(self, path):
         """Set the node path representing the current node type"""
         self.actual_path = path
-    
+
     def get_value(self):
         """Return the value of the current node"""
         return self.value
@@ -184,11 +199,11 @@ class Node:
         """Set the value of the current node"""
         # assert isinstance(value, Node)
         self.value = value
-    
+
     def get_defined_path(self):
         """Return the node path representing the current node definition"""
         return self.defined_path
-    
+
     def set_defined_path(self, path):
         """Set the node path representing the current node definition"""
         self.defined_path = path
@@ -234,4 +249,3 @@ class Node:
 
     def __repr__(self):
         return "<Node %s:%s>" % (repr(self.flavor), self.get_name())
-    

@@ -106,14 +106,17 @@ def resolve_method_resolution_order(class_base_nodes, logger):
     from functools import reduce
     from operator import add
 
-    def C3_find_good_head(heads, tails):  # find an element of heads which is not in any of the tails
+    def C3_find_good_head(
+        heads, tails
+    ):  # find an element of heads which is not in any of the tails
         flat_tails = reduce(add, tails, [])  # flatten the outer level
         for hd in heads:
             if hd not in flat_tails:
                 break
         else:  # no break only if there are cyclic dependencies.
             raise LinearizationImpossible(
-                "MRO linearization impossible; cyclic dependency detected. heads: %s, tails: %s" % (heads, tails)
+                "MRO linearization impossible; cyclic dependency detected. heads: %s, tails: %s"
+                % (heads, tails)
             )
         return hd
 
@@ -156,7 +159,9 @@ def resolve_method_resolution_order(class_base_nodes, logger):
                         if baseclass_node not in seen:
                             lists.append(C3_linearize(baseclass_node))
                     # ...and the parents themselves (in the order they appear in the ClassDef)
-                    logger.debug("MRO: parents of %s: %s" % (node, class_base_nodes[node]))
+                    logger.debug(
+                        "MRO: parents of %s: %s" % (node, class_base_nodes[node])
+                    )
                     lists.append(class_base_nodes[node])
                     logger.debug("MRO: C3 merging %s" % (lists))
                     memo[node] = [node] + C3_merge(lists)
@@ -182,7 +187,9 @@ def resolve_method_resolution_order(class_base_nodes, logger):
             if node not in memo:
                 out = [node]  # first look up in obj itself...
                 if node in class_base_nodes:  # known class?
-                    for baseclass_node in class_base_nodes[node]:  # ...then in its bases
+                    for baseclass_node in class_base_nodes[
+                        node
+                    ]:  # ...then in its bases
                         if baseclass_node not in seen:
                             out.append(baseclass_node)
                             out.extend(lookup_bases_recursive(baseclass_node))
@@ -222,19 +229,21 @@ class Scope:
                 name = ""  # Pyan defines the top level as anonymous
             self.name = name
             self.type = table.get_type()  # useful for __repr__()
-            self.defs = {iden: None for iden in table.get_identifiers()}  # name:assigned_value
+            self.defs = {
+                iden: None for iden in table.get_identifiers()
+            }  # name:assigned_value
             self.Return = None
             self.path = "None"
-    
+
     def set_Return(self, value):
         """qika: set the Return value of the scope"""
         self.Return = value
-    
+
     def reset(self, name, type):
         self.name = name
         self.type = type
         self.defs = {}
-    
+
     def __repr__(self):
         return "<Scope: %s %s>" % (self.type, self.name)
 
@@ -271,8 +280,8 @@ class ExecuteInInnerScope:
         if inner_ns not in analyzer.scopes:
             analyzer.name_stack.pop()
             if scopename == "lambda":
-                scopename = "lambda_"+analyzer.name_stack[-1]
-                inner_ns = ".".join(analyzer.name_stack)+"."+scopename
+                scopename = "lambda_" + analyzer.name_stack[-1]
+                inner_ns = ".".join(analyzer.name_stack) + "." + scopename
                 analyzer.name_stack.append(scopename)
                 lambda_scope = Scope()
                 lambda_scope.reset(scopename, "lambda")
@@ -306,5 +315,9 @@ class ExecuteInInnerScope:
         ns = from_node.get_name()
         to_node = analyzer.get_node(ns, scopename, None, flavor=Flavor.NAMESPACE)
         if analyzer.add_defines_edge(from_node, to_node):
-            analyzer.logger.info("Def from %s to %s %s" % (from_node, scopename, to_node))
-        analyzer.last_value = to_node  # Make this inner scope node assignable to track its uses.
+            analyzer.logger.info(
+                "Def from %s to %s %s" % (from_node, scopename, to_node)
+            )
+        analyzer.last_value = (
+            to_node  # Make this inner scope node assignable to track its uses.
+        )

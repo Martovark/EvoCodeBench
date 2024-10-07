@@ -9,10 +9,10 @@
     for rendering by e.g. GraphViz or yEd.
 """
 
-from argparse import ArgumentParser
-from glob import glob
 import logging
 import os
+from argparse import ArgumentParser
+from glob import glob
 
 from .analyzer import CallGraphVisitor
 from .visgraph import VisualGraph
@@ -29,25 +29,68 @@ def main(cli_args=None):
 
     parser = ArgumentParser(usage=usage, description=desc)
 
-    parser.add_argument("--dot", action="store_true", default=False, help="output in GraphViz dot format")
+    parser.add_argument(
+        "--dot",
+        action="store_true",
+        default=False,
+        help="output in GraphViz dot format",
+    )
 
-    parser.add_argument("--tgf", action="store_true", default=False, help="output in Trivial Graph Format")
+    parser.add_argument(
+        "--tgf",
+        action="store_true",
+        default=False,
+        help="output in Trivial Graph Format",
+    )
 
-    parser.add_argument("--svg", action="store_true", default=False, help="output in SVG Format")
+    parser.add_argument(
+        "--svg", action="store_true", default=False, help="output in SVG Format"
+    )
 
-    parser.add_argument("--html", action="store_true", default=False, help="output in HTML Format")
+    parser.add_argument(
+        "--html", action="store_true", default=False, help="output in HTML Format"
+    )
 
-    parser.add_argument("--yed", action="store_true", default=False, help="output in yEd GraphML Format")
+    parser.add_argument(
+        "--yed", action="store_true", default=False, help="output in yEd GraphML Format"
+    )
 
-    parser.add_argument("--file", dest="filename", help="write graph to FILE", metavar="FILE", default=None)
+    parser.add_argument(
+        "--file",
+        dest="filename",
+        help="write graph to FILE",
+        metavar="FILE",
+        default=None,
+    )
 
-    parser.add_argument("--namespace", dest="namespace", help="filter for NAMESPACE", metavar="NAMESPACE", default=None)
+    parser.add_argument(
+        "--namespace",
+        dest="namespace",
+        help="filter for NAMESPACE",
+        metavar="NAMESPACE",
+        default=None,
+    )
 
-    parser.add_argument("--function", dest="function", help="filter for FUNCTION", metavar="FUNCTION", default=None)
+    parser.add_argument(
+        "--function",
+        dest="function",
+        help="filter for FUNCTION",
+        metavar="FUNCTION",
+        default=None,
+    )
 
-    parser.add_argument("-l", "--log", dest="logname", help="write log to LOG", metavar="LOG")
+    parser.add_argument(
+        "-l", "--log", dest="logname", help="write log to LOG", metavar="LOG"
+    )
 
-    parser.add_argument("-v", "--verbose", action="store_true", default=False, dest="verbose", help="verbose output")
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        default=False,
+        dest="verbose",
+        help="verbose output",
+    )
 
     parser.add_argument(
         "-V",
@@ -184,7 +227,6 @@ def main(cli_args=None):
 
     known_args, unknown_args = parser.parse_known_args(cli_args)
 
-
     filenames = []
     for fn in unknown_args:
         for fn2 in glob(fn, recursive=True):
@@ -241,7 +283,6 @@ def main(cli_args=None):
     v = CallGraphVisitor(filenames, logger=logger, root=root)
 
     if known_args.function or known_args.namespace:
-
         if known_args.function:
             function_name = known_args.function.split(".")[-1]
             namespace = ".".join(known_args.function.split(".")[:-1])
@@ -257,25 +298,40 @@ def main(cli_args=None):
     writer = None
 
     if known_args.dot:
-        writer = DotWriter(graph, options=[
-            "rankdir=" + known_args.rankdir,
-            "ranksep=" + known_args.ranksep,
-            "layout=" + known_args.layout,
-        ], output=known_args.filename, logger=logger)
+        writer = DotWriter(
+            graph,
+            options=[
+                "rankdir=" + known_args.rankdir,
+                "ranksep=" + known_args.ranksep,
+                "layout=" + known_args.layout,
+            ],
+            output=known_args.filename,
+            logger=logger,
+        )
 
     if known_args.html:
-        writer = HTMLWriter(graph, options=[
-            "rankdir=" + known_args.rankdir,
-            "ranksep=" + known_args.ranksep,
-            "layout=" + known_args.layout,
-        ], output=known_args.filename, logger=logger)
+        writer = HTMLWriter(
+            graph,
+            options=[
+                "rankdir=" + known_args.rankdir,
+                "ranksep=" + known_args.ranksep,
+                "layout=" + known_args.layout,
+            ],
+            output=known_args.filename,
+            logger=logger,
+        )
 
     if known_args.svg:
-        writer = SVGWriter(graph, options=[
-            "rankdir=" + known_args.rankdir,
-            "ranksep=" + known_args.ranksep,
-            "layout=" + known_args.layout,
-        ], output=known_args.filename, logger=logger)
+        writer = SVGWriter(
+            graph,
+            options=[
+                "rankdir=" + known_args.rankdir,
+                "ranksep=" + known_args.ranksep,
+                "layout=" + known_args.layout,
+            ],
+            output=known_args.filename,
+            logger=logger,
+        )
 
     if known_args.tgf:
         writer = TgfWriter(graph, output=known_args.filename, logger=logger)

@@ -86,7 +86,17 @@ class VisualNode(object):
         self.group = group
 
     def __repr__(self):
-        optionals = [repr(s) for s in [self.label, self.flavor, self.fill_color, self.text_color, self.group] if s]
+        optionals = [
+            repr(s)
+            for s in [
+                self.label,
+                self.flavor,
+                self.fill_color,
+                self.text_color,
+                self.group,
+            ]
+            if s
+        ]
         if optionals:
             return "VisualNode(" + repr(self.id) + ", " + ", ".join(optionals) + ")"
         else:
@@ -107,11 +117,21 @@ class VisualEdge(object):
         self.color = color
 
     def __repr__(self):
-        return "Edge(" + self.source.label + " " + self.flavor + " " + self.target.label + ")"
+        return (
+            "Edge("
+            + self.source.label
+            + " "
+            + self.flavor
+            + " "
+            + self.target.label
+            + ")"
+        )
 
 
 class VisualGraph(object):
-    def __init__(self, id, label, nodes=None, edges=None, subgraphs=None, grouped=False):
+    def __init__(
+        self, id, label, nodes=None, edges=None, subgraphs=None, grouped=False
+    ):
         self.id = id
         self.label = label
         self.nodes = nodes or []
@@ -168,7 +188,9 @@ class VisualGraph(object):
                 filenames.add(node.filename)
             return filenames
 
-        colorizer = Colorizer(num_colors=len(find_filenames()) + 1, colored=colored, logger=logger)
+        colorizer = Colorizer(
+            num_colors=len(find_filenames()) + 1, colored=colored, logger=logger
+        )
 
         nodes_dict = dict()
         root_graph = cls("G", label="", grouped=grouped)
@@ -195,7 +217,10 @@ class VisualGraph(object):
                 if not prev_namespace:
                     logger.info("New namespace %s" % (node.namespace))
                 else:
-                    logger.info("New namespace %s, old was %s" % (node.namespace, prev_namespace))
+                    logger.info(
+                        "New namespace %s, old was %s"
+                        % (node.namespace, prev_namespace)
+                    )
                 prev_namespace = node.namespace
 
                 label = node.get_namespace_label()
@@ -209,12 +234,18 @@ class VisualGraph(object):
                         m = re.match(namespace_stack[-1].label, node.namespace)
                         # The '.' check catches siblings in cases like
                         # MeshGenerator vs. Mesh.
-                        while m is None or m.end() == len(node.namespace) or node.namespace[m.end()] != ".":
+                        while (
+                            m is None
+                            or m.end() == len(node.namespace)
+                            or node.namespace[m.end()] != "."
+                        ):
                             namespace_stack.pop()
                             if not len(namespace_stack):
                                 break
                             m = re.match(namespace_stack[-1].label, node.namespace)
-                    parentgraph = namespace_stack[-1] if len(namespace_stack) else root_graph
+                    parentgraph = (
+                        namespace_stack[-1] if len(namespace_stack) else root_graph
+                    )
                     parentgraph.subgraphs.append(subgraph)
 
                     namespace_stack.append(subgraph)
@@ -238,7 +269,11 @@ class VisualGraph(object):
                 if n.defined:
                     for n2 in visitor.defines_edges[n]:
                         if n2.defined:
-                            root_graph.edges.append(VisualEdge(nodes_dict[n], nodes_dict[n2], "defines", color))
+                            root_graph.edges.append(
+                                VisualEdge(
+                                    nodes_dict[n], nodes_dict[n2], "defines", color
+                                )
+                            )
 
         if draw_uses:
             color = "#000000"
@@ -246,6 +281,8 @@ class VisualGraph(object):
                 if n.defined:
                     for n2 in visitor.uses_edges[n]:
                         if n2.defined:
-                            root_graph.edges.append(VisualEdge(nodes_dict[n], nodes_dict[n2], "uses", color))
+                            root_graph.edges.append(
+                                VisualEdge(nodes_dict[n], nodes_dict[n2], "uses", color)
+                            )
 
         return root_graph
