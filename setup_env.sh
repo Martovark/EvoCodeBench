@@ -5,6 +5,8 @@ Source_Code_Root=$Root/Source_Code
 apt-get update
 apt-get install -y libgl1-mesa-glx
 
+echo "-------------------START--------------------"
+
 # Setup the execution environment for contrastors
 cd $Root/Source_Code/contrastors
 python3.10 -m venv myenv && source myenv/bin/activate
