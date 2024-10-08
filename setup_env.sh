@@ -2,6 +2,16 @@ Root=/home/user/EvoCodeBench
 Data_Path=$Root/data.jsonl
 Source_Code_Root=$Root/Source_Code
 
+
+
+echo "------------------------PYTHON VERSION BEFORE----------------------------" 
+
+python --version
+source activate EvoCodeBench
+python --version
+
+echo "------------------------PYTHON VERSION AFTER----------------------------" 
+
 apt-get update
 apt-get install -y libgl1-mesa-glx
 
