@@ -13,7 +13,7 @@ python3.10 -m venv myenv && source myenv/bin/activate
 pip3 install --no-cache-dir torch torchvision torchaudio
 pip install --no-cache-dir wheel packaging ninja setuptools
 pip install --no-cache-dir --no-cache-dir flash-attn --no-build-isolation git+https://github.com/HazyResearch/flash-attention.git#subdirectory=csrc/rotary git+https://github.com/HazyResearch/flash-attention.git#subdirectory=csrc/layer_norm git+https://github.com/HazyResearch/flash-attention.git#subdirectory=csrc/fused_dense_lib git+https://github.com/HazyResearch/flash-attention.git#subdirectory=csrc/xentropy
-pip install --no-cache-dir -e . 
+# pip install --no-cache-dir -e . 
 pip install --no-cache-dir pytest pytest-runner
 
 deactivate
