@@ -16,6 +16,7 @@ pip install --no-cache-dir pytest pytest-runner
 
 deactivate
 
+echo "-------------------CONTRASTORS DONE--------------------"
 
 # Setup the execution environment for EasyVolcap
 cd $Root/Source_Code/EasyVolcap
@@ -28,6 +29,7 @@ pip install --no-cache-dir pytest pytest-runner
 pip install --no-cache-dir opencv-python-headless
 deactivate
 
+echo "-------------------EASYVOLCAP DONE--------------------"
 
 # Setup the execution environment for microagents
 cd $Root/Source_Code/microagents
@@ -37,6 +39,7 @@ pip install --no-cache-dir -r requirements.txt
 deactivate
 
 
+echo "-------------------microagents DONE--------------------"
 # Setup the execution environment for XAgent
 cd $Root/Source_Code/XAgent # TODO: None of tests work.
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -44,6 +47,7 @@ pip install --no-cache-dir pytest pytest-runner
 pip install --no-cache-dir -r requirements.txt
 deactivate
 
+echo "-------------------xagent DONE--------------------"
 
 # Setup the execution environment for litdata
 cd $Root/Source_Code/litdata
@@ -57,7 +61,7 @@ pip uninstall --yes numpy
 pip install --no-cache-dir numpy==1.24.0
 deactivate
 
-
+echo "-------------------litdata DONE--------------------"
 # Setup the execution environment for gaussian-splatting-lightning
 cd $Root/Source_Code/gaussian-splatting-lightning
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -73,6 +77,7 @@ pip install --no-cache-dir ./submodules/tiny-cuda-nn-fp32/bindings/torch
 
 deactivate
 
+echo "-------------------gaussian splatting DONE--------------------"
 
 # Setup the execution environment for open-iris
 cd $Root/Source_Code/open-iris
@@ -86,6 +91,7 @@ pip install --no-cache-dir opencv-python-headless
 deactivate
 
 
+echo "-------------------open iris DONE--------------------"
 # Setup the execution environment for tanuki_py
 cd $Root/Source_Code/tanuki_py
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -94,7 +100,7 @@ pip install --no-cache-dir -e .
 pip install --no-cache-dir -r requirements.txt
 deactivate
 
-
+echo "-------------------tanuki DONE--------------------"
 # Setup the execution environment for skfolio
 cd $Root/Source_Code/skfolio
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -103,6 +109,7 @@ pip install --no-cache-dir -e .
 deactivate
 
 
+echo "-------------------skfolio DONE--------------------"
 # Setup the execution environment for UniRef
 cd $Root/Source_Code/UniRef
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -116,6 +123,7 @@ pip install --no-cache-dir opencv-python-headless
 deactivate
 
 
+echo "-------------------uniref DONE--------------------"
 # Setup the execution environment for scepter
 cd $Root/Source_Code/scepter
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -130,6 +138,7 @@ pip install --no-cache-dir opencv-python-headless
 deactivate
 
 
+echo "-------------------scepter DONE--------------------"
 # Setup the execution environment for microsearch
 cd $Root/Source_Code/microsearch
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -138,6 +147,7 @@ pip install --no-cache-dir -e .
 deactivate
 
 
+echo "-------------------microsearhc DONE--------------------"
 # Setup the execution environment for UHGEval
 cd $Root/Source_Code/UHGEval
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -147,6 +157,7 @@ pip install --no-cache-dir -r requirements.txt
 deactivate
 
 
+echo "-------------------uhgeval DONE--------------------"
 # Setup the execution environment for Test-Agent
 cd $Root/Source_Code/Test-Agent
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -155,6 +166,7 @@ pip install --no-cache-dir -r requirements.txt
 deactivate
 
 
+echo "-------------------test-agent DONE--------------------"
 # Setup the execution environment for Generalizable-BEV
 cd $Root/Source_Code/Generalizable-BEV
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -169,6 +181,7 @@ pip install --no-cache-dir -r requirements/mminstall.txt
 deactivate
 
 
+echo "-------------------bev DONE--------------------"
 # Setup the execution environment for ollama-python
 cd $Root/Source_Code/ollama-python
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -180,6 +193,7 @@ pip install --no-cache-dir -r requirements.txt
 deactivate
 
 
+echo "-------------------ollama DONE--------------------"
 # Setup the execution environment for Python-Type-Challenges
 cd $Root/Source_Code/Python-Type-Challenges
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -188,6 +202,7 @@ pip install --no-cache-dir -r requirements.txt
 deactivate
 
 
+echo "-------------------type DONE--------------------"
 # Setup the execution environment for stable-fast
 cd $Root/Source_Code/stable-fast
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -198,6 +213,7 @@ pip3 install --no-cache-dir -v -U git+https://github.com/chengzeyi/stable-fast.g
 deactivate
 
 
+echo "-------------------stable-fast DONE--------------------"
 # Setup the execution environment for AutoRAG
 cd $Root/Source_Code/AutoRAG
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -206,6 +222,7 @@ pip install --no-cache-dir -e .
 deactivate
 
 
+echo "-------------------auto-rag DONE--------------------"
 # Setup the execution environment for stable-diffusion-webui-forge
 # TODO: 7z 18g + .bat inside, wtf
 cd $Root/Source_Code/stable-diffusion-webui-forge
@@ -215,6 +232,7 @@ pip install --no-cache-dir -r requirements.txt
 deactivate
 
 
+echo "-------------------webui forge DONE--------------------"
 # Setup the execution environment for openlogprobs
 cd $Root/Source_Code/openlogprobs
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -224,6 +242,7 @@ pip install --no-cache-dir transformers
 deactivate
 
 
+echo "-------------------openlog DONE--------------------"
 # Setup the execution environment for camp_zipnerf
 cd $Root/Source_Code/camp_zipnerf
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -235,6 +254,7 @@ pip install --no-cache-dir scipy==1.10.0
 deactivate
 
 
+echo "-------------------zipnerf DONE--------------------"
 # Setup the execution environment for nlm-ingestor
 cd $Root/Source_Code/nlm-ingestor
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -244,6 +264,7 @@ python -c "import nltk; nltk.download('punkt')"
 deactivate
 
 
+echo "-------------------ingestor DONE--------------------"
 # Setup the execution environment for searcharray
 cd $Root/Source_Code/searcharray
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -252,6 +273,7 @@ pip install --no-cache-dir -e .
 deactivate
 
 
+echo "-------------------searcharray DONE--------------------"
 # Setup the execution environment for deluder
 cd $Root/Source_Code/deluder
 python3.10 -m venv myenv && source myenv/bin/activate
@@ -260,6 +282,7 @@ pip install --no-cache-dir -e .
 deactivate
 
 
+echo "-------------------deluder DONE--------------------"
 cd $Root
 python update_test_path.py \
     --data_path $Data_Path \
