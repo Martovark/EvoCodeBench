@@ -4,7 +4,7 @@ Source_Code_Root=$ROOT/Source_Code
 Dependency_Root=$ROOT/Dependency_Data
 
 tasks=(local_infilling)
-models=(gpt4-1106_greedy)
+models=(gpt-4-1106_greedy)
 
 for task in ${tasks[@]}; do
     for model in ${models[@]}; do
