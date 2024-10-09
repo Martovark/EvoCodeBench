@@ -1,7 +1,9 @@
 import json
 import os
+import re
 import subprocess
 import textwrap
+from pathlib import Path
 from argparse import ArgumentParser
 from subprocess import run
 
@@ -18,10 +20,47 @@ def parse_args():
     parser.add_argument("--log_file", type=str)
     parser.add_argument("--data_file", type=str, default="data.jsonl")
     parser.add_argument("--source_code_root", type=str, default="Source_Code")
-    parser.add_argument("--k", type=str, default="1,3,5,10")
+    parser.add_argument("--dump-dir", type=lambda x: Path(x).resolve(), default="dump")
+    parser.add_argument("--ecb-path", type=lambda x: Path(x).resolve())
+    parser.add_argument("--k", type=str, default="1")
     parser.add_argument("--n", type=int, default=1)
     return parser.parse_args()
 
+def load_jsonl(path, hook=None):
+    res = []
+    with open(path, encoding='utf-8') as f:
+        for line in f:
+            res.append(json.loads(line))
+    return res
+
+def save_jsonl(obj, path):
+    with open(path, 'w', encoding='utf-8') as f:
+        for item in obj:
+            f.write(json.dumps(item, ensure_ascii=False)+'\n')
+
+
+def change_flags(ecb_path, log_file_path):
+    ecb_file, log_file = load_jsonl(ecb_path), load_jsonl(log_file_path)
+    
+    sort_by_namespace = lambda x: x["namespace"]
+    ecb_file = sorted(ecb_file, key=sort_by_namespace)
+    log_file = sorted(log_file, key=sort_by_namespace)
+    
+    for idx, log_dct in enumerate(log_file):
+        if log_dct["Result"] == "Pass":
+            ecb_file[idx]["matched"] = [True]
+    
+    save_jsonl(ecb_file, ecb_path)
+
+def change_acc(dump_dir:Path, file_name: str, updated_accuracy:float):
+    all_metrics = load_jsonl(dump_dir / "all_metrics.jsonl")
+    
+    for metric in all_metrics:
+        if re.search(file_name, metric["dataset"], flags=re.I) is not None:
+            metric["metric"]["accuracy@1"] = updated_accuracy
+            
+    save_jsonl(all_metrics, dump_dir / "all_metrics.jsonl")
+            
 
 def adjust_indent(code, new_indent):
     # remove original indentation
@@ -157,6 +196,7 @@ def report_results(args, benchmark_data):
 
     # Compute Pass@k
     k_list = [int(k) for k in args.k.split(",")]
+    assert k_list == [1], "k_list != [1]"
     for k in k_list:
         if k > args.n:
             continue
@@ -167,6 +207,8 @@ def report_results(args, benchmark_data):
             ]
         )
         print(f"pass_at_{k}: {pass_at_k*100}%")
+        
+        return pass_at_k
 
 
 def load_finished_data(args):
@@ -222,8 +264,12 @@ def main():
                 f.write(json.dumps(output) + "\n")
                 f.flush()
 
-    report_results(args, benchmark_data)
+    pass_k = report_results(args, benchmark_data)
 
+    # update dump_folder
+    
+    change_flags(args.ecb_path, args.log_file)
+    change_acc(args.dump_dir, args.ecb_path.stem, round(pass_k, 4))
 
 if __name__ == "__main__":
     main()

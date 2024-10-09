@@ -9,7 +9,7 @@ from tree_sitter import Language, Parser
 
 def get_parser():
     parser = ArgumentParser()
-    parser.add_argument("--model_type", type=str)
+    parser.add_argument("--model_type", type=str, default="gpt")
     parser.add_argument("--completion_file", type=str)
     parser.add_argument("--output_file", type=str)
     parser.add_argument(
@@ -25,7 +25,7 @@ assert os.path.exists(
 wrong_code = "    pass\n"
 
 parser = Parser()
-PY_LANGUAGE = Language("../build/my-languages.so", "python")
+PY_LANGUAGE = Language("build/my-languages.so", "python")
 parser = Parser()
 parser.set_language(PY_LANGUAGE)
 
@@ -209,6 +209,12 @@ def extract_body_lm(data: dict):
 
     return data["namespace"], results
 
+def hook(dct):
+    for k, v in dct.items():
+        if k == "parsed_predict":
+            dct["completion"] = v 
+            return dct
+    return dct
 
 if __name__ == "__main__":
     extraction = {"gpt": extract_body_gpt, "lm": extract_body_lm}
@@ -223,7 +229,7 @@ if __name__ == "__main__":
     idx = 0
     with open(args.completion_file, "r") as f_r, open(args.output_file, "w") as f_w:
         for line in f_r:
-            data = json.loads(line)
+            data = json.loads(line, object_hook=hook)
             namespace, completions = extract_function(data)
             if namespace in benchmark:
                 if type(completions) == str:
