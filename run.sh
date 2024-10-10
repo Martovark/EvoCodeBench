@@ -9,7 +9,7 @@ Dependency_Root=/data/Dependency_Data
 completion_file=$1
 dump_dir=$2
 
-conda activate EvoCodeBench
+source activate EvoCodeBench && pip install func-timeout==4.3.5 numpy==2.1.2 tqdm==4.66.5 psutil==6.0.0 tiktoken==0.8.0 tree-sitter==0.21.3
 
 python prompt/process_completion.py \
     --model_type "gpt" \
