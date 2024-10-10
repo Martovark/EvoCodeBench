@@ -20,6 +20,7 @@ python check_source_code.py $Source_Code_Root
 python pass_k.py \
     --output_file $ROOT/outputs/output.jsonl \
     --log_file $ROOT/outputs/test_results.jsonl \
+    --data_file /data/data.jsonl \
     --source_code_root $Source_Code_Root \
     --dump-dir ${dump_dir} \
     --ecb-path ${completion_file} \
