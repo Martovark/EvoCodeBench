@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 ROOT=/home/user/EvoCodeBench
 
 Source_Code_Root=/data/Source_Code
@@ -7,6 +8,8 @@ Dependency_Root=/data/Dependency_Data
 
 completion_file=$1
 dump_dir=$2
+
+conda activate EvoCodeBench
 
 python prompt/process_completion.py \
     --model_type "gpt" \
