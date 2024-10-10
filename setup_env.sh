@@ -1,4 +1,4 @@
-Root=/home/user/EvoCodeBench
+Root=/data
 Data_Path=$Root/data.jsonl
 Source_Code_Root=$Root/Source_Code
 

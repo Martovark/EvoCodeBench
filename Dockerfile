@@ -30,7 +30,7 @@ RUN /opt/conda/bin/conda create -n EvoCodeBench python=3.10 -y && \
     /opt/conda/bin/conda clean -afy
 
 # activate venv, clone EvoCodeBench repo
-RUN echo "source activate EvoCodeBench && pip install func-timeout==4.3.5 numpy==2.1.2 tqdm==4.66.5 psutil=6.0.0 tiktoken==0.8.0 tree-sitter==0.21.3" > ~/.bashrc
+RUN echo "source activate EvoCodeBench && pip install func-timeout==4.3.5 numpy==2.1.2 tqdm==4.66.5 psutil==6.0.0 tiktoken==0.8.0 tree-sitter==0.21.3" > ~/.bashrc
 RUN mkdir -p /home/user
 
 # ARG CACHEBUST=1

@@ -2,8 +2,8 @@
 
 ROOT=/home/user/EvoCodeBench
 
-Source_Code_Root=$ROOT/Source_Code
-Dependency_Root=$ROOT/Dependency_Data
+Source_Code_Root=/data/Source_Code
+Dependency_Root=/data/Dependency_Data
 
 completion_file=$1
 dump_dir=$2
