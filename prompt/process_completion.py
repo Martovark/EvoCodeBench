@@ -13,7 +13,7 @@ def get_parser():
     parser.add_argument("--completion_file", type=str)
     parser.add_argument("--output_file", type=str)
     parser.add_argument(
-        "--data_file", type=str, default="/data/data.jsonl"
+        "--data_file", type=str, default="data.jsonl"
     )
     return parser
 

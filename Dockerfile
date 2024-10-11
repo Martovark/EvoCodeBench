@@ -30,23 +30,23 @@ RUN /opt/conda/bin/conda create -n EvoCodeBench python=3.10 -y && \
     /opt/conda/bin/conda clean -afy
 
 # activate venv, clone EvoCodeBench repo
-RUN echo "source activate EvoCodeBench && pip install func-timeout==4.3.5 numpy==2.1.2 tqdm==4.66.5 psutil==6.0.0 tiktoken==0.8.0 tree-sitter==0.21.3" > ~/.bashrc
+RUN echo "source activate EvoCodeBench && pip install pytest==8.3.3 func-timeout==4.3.5 numpy==2.1.2 tqdm==4.66.5 psutil==6.0.0 tiktoken==0.8.0 tree-sitter==0.21.3" > ~/.bashrc
 RUN mkdir -p /home/user
 
-# ARG CACHEBUST=1
-# RUN git clone https://github.com/Martovark/EvoCodeBench.git /home/user/EvoCodeBench
+ARG CACHEBUST=1
+RUN git clone https://github.com/Martovark/EvoCodeBench.git /home/user/EvoCodeBench
 
-# WORKDIR /home/user/EvoCodeBench
-# RUN mkdir outputs
+WORKDIR /home/user/EvoCodeBench
+RUN mkdir outputs
 
 # download code for bench: Src, Dependency data, etc.
-# RUN git clone https://huggingface.co/datasets/LJ0815/EvoCodeBench
+RUN git clone https://huggingface.co/datasets/arkmartov/EvoCodeBenchReduced
 
 # # extract zip files to cur dir + 60gb after this operation
-# RUN ls -d EvoCodeBench/EvoCodeBench-2403/* | xargs -I {} tar xvf {}
+RUN mv EvoCodeBench/EvoCodeBenchReduced/* ./
 
 # # install requirements for all repos
-# RUN bash setup_env.sh
+RUN bash setup_env_reduced.sh
 
 
 
