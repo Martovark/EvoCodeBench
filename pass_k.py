@@ -26,41 +26,44 @@ def parse_args():
     parser.add_argument("--n", type=int, default=1)
     return parser.parse_args()
 
+
 def load_jsonl(path, hook=None):
     res = []
-    with open(path, encoding='utf-8') as f:
+    with open(path, encoding="utf-8") as f:
         for line in f:
             res.append(json.loads(line))
     return res
 
+
 def save_jsonl(obj, path):
-    with open(path, 'w', encoding='utf-8') as f:
+    with open(path, "w", encoding="utf-8") as f:
         for item in obj:
-            f.write(json.dumps(item, ensure_ascii=False)+'\n')
+            f.write(json.dumps(item, ensure_ascii=False) + "\n")
 
 
 def change_flags(ecb_path, log_file_path):
     ecb_file, log_file = load_jsonl(ecb_path), load_jsonl(log_file_path)
-    
+
     sort_by_namespace = lambda x: x["namespace"]
     ecb_file = sorted(ecb_file, key=sort_by_namespace)
     log_file = sorted(log_file, key=sort_by_namespace)
-    
+
     for idx, log_dct in enumerate(log_file):
         if log_dct["Result"] == "Pass":
-            ecb_file[idx]["matched"] = [True]
-    
+            ecb_file[idx]["matched"] = True
+
     save_jsonl(ecb_file, ecb_path)
 
-def change_acc(dump_dir:Path, file_name: str, updated_accuracy:float):
+
+def change_acc(dump_dir: Path, file_name: str, updated_accuracy: float):
     all_metrics = load_jsonl(dump_dir / "all_metrics.jsonl")
-    
+
     for metric in all_metrics:
         if re.search(file_name, metric["dataset"], flags=re.I) is not None:
-            metric["metric"]["accuracy@1"] = updated_accuracy
-            
+            metric["metric"]["accuracy"] = updated_accuracy
+
     save_jsonl(all_metrics, dump_dir / "all_metrics.jsonl")
-            
+
 
 def adjust_indent(code, new_indent):
     # remove original indentation
@@ -206,8 +209,8 @@ def report_results(args, benchmark_data):
                 for namespace, pass_num in results.items()
             ]
         )
-        print(f"pass_at_{k}: {pass_at_k*100}%")
-        
+        print(f"pass_at_{k}: {pass_at_k * 100}%")
+
         return pass_at_k
 
 
@@ -267,9 +270,10 @@ def main():
     pass_k = report_results(args, benchmark_data)
 
     # update dump_folder
-    
+
     change_flags(args.ecb_path, args.log_file)
     change_acc(args.dump_dir, args.ecb_path.stem, round(pass_k, 4))
+
 
 if __name__ == "__main__":
     main()
